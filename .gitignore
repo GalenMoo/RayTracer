@@ -36,6 +36,7 @@ a.out
 settings.json
 *.o
 build/*
+!build/.gitkeep
 *.json
 images/*
 *.ppm

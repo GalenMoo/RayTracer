@@ -2,14 +2,23 @@
 #define UTILITY_H
 
 #include "point.h"
+#include "ray.h"
+#include "sphere.h"
+#include "camera.h"
 
-double dot(const Point p1, const Point p2);
-Point cross(const Point p1, const Point p2);
-Point unit_vector(Point p);
+#include "mathutil.h"
+
+#include "hittable.h"
+#include "hittable_list.h"
+
+
 void write_color(std::ostream &out, Color c);
-Color ray_color(const Ray& r);
+void write_color(std::ostream &out, Color pixel_color, int samples_per_pixel);
+Color ray_color(const Ray& r, Hittable& world, int depth);
 double hit_sphere(const Point& center, double radius, const Ray& r);
 
+Point random_in_unit_sphere();
+Point random_unit_vector();
 /*
 struct Color{
     double r{0};

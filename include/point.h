@@ -26,7 +26,10 @@ class Point
         friend std::ostream& operator<<(std::ostream &out, const Point &p);
 
         double length() const;
-
+        double length_squared() const;
+        
+        static Point random();
+        static Point random(double min, double max);
     private:
         double x_;
         double y_;

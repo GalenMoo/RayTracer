@@ -1,46 +1,11 @@
 #include <iostream>
+#include <memory>
 
-#include "point.h"
-#include "ray.h"
 #include "utility.h"
 
 void Render();
 
 int main(){
-    const auto aspect_ratio = 16.0 / 9.0;
-    const int image_width = 400;
-    const int image_height = static_cast<int>(image_width / aspect_ratio);
-
-    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
-
-    auto origin = Point(0, 0, 0);
-    auto horizontal = Point(viewport_width, 0, 0);
-    auto vertical = Point(0, viewport_height, 0);
-    auto lower_left_corner = origin - horizontal/2 - vertical/2 - Point(0, 0, focal_length);
-
-    auto u = double(5) / (image_width-1);
-    auto v = double(10) / (image_height-1);
-
-    Ray r(origin, lower_left_corner + horizontal*u + vertical*v - origin);
-
-    // r.at(5);
-    // std::cout << std::endl;
-    // r.at(2);
-    // std::cout << std::endl;
-    // r.at(1);
-    // std::cout << std::endl;
-    // r.at(4);
-    // std::cout << std::endl;
-
-    // std::cout << r.at(3);
-    // std::cout << std::endl;
-    // std::cout << r.at(3) - Point(0,0,-1);
-    // std::cout << std::endl;
-    // std::cout << (r.at(3) - Point(0,0,-1)).length();
-    // std::cout << std::endl;
-    // std::cout << unit_vector(r.at(3) - Point(0,0,-1));
     Render();
 
     // Point p = Point(4, 5, 6);
@@ -54,20 +19,21 @@ int main(){
 
 
 void Render(){
+
+    //Image
     const auto aspect_ratio = 16.0 / 9.0;
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
+    const int samples_per_pixel = 100;
+    const int max_depth = 50;
+
+    // World
+    Hittable_List world;
+    world.add(std::make_shared<Sphere>(Point(0,0,-1), 0.5));
+    world.add(std::make_shared<Sphere>(Point(0,-100.5,-1), 100));
 
     // Camera
-
-    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
-
-    auto origin = Point(0, 0, 0);
-    auto horizontal = Point(viewport_width, 0, 0);
-    auto vertical = Point(0, viewport_height, 0);
-    auto lower_left_corner = origin - horizontal/2 - vertical/2 - Point(0, 0, focal_length);
+    Camera cam;
 
     // Render
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -76,11 +42,15 @@ void Render(){
         //TODO add progress bar with /b
         std::cerr << "\rScanlines remaining: " << j << " " << std::flush;
         for (int i = 0; i < image_width; ++i) {
-            auto u = double(i) / (image_width-1);
-            auto v = double(j) / (image_height-1);
-            Ray r(origin, lower_left_corner + horizontal*u + vertical*v - origin);
-            Color pixel_color = ray_color(r);
-            write_color(std::cout, pixel_color);
+            Color pixel_color(0, 0, 0);
+            for (int s = 0; s < samples_per_pixel; ++s) {
+                auto u = (i + random_double()) / (image_width-1);
+                auto v = (j + random_double()) / (image_height-1);
+                Ray r = cam.get_ray(u, v);
+                pixel_color += ray_color(r, world, max_depth);
+            }
+
+            write_color(std::cout, pixel_color, samples_per_pixel);
         }
     }
 

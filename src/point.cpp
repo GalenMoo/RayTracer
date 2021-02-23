@@ -11,6 +11,7 @@
 #include <stdexcept>
 
 #include "point.h"
+#include "mathutil.h"
 
 Point Point::operator+(const Point &other){
     return Point(this->x_ + other.x_,
@@ -74,4 +75,17 @@ std::ostream& operator<<(std::ostream &out, const Point &p) {
 
 double Point::length() const{
     return std::sqrt(x_*x_ + y_*y_ + z_*z_);
+}
+
+
+double Point::length_squared() const{
+    return x_*x_ + y_*y_ + z_*z_;
+}
+
+Point Point::random(){
+    return Point(random_double(), random_double(), random_double());
+}
+
+Point Point::random(double min, double max){
+    return Point(random_double(), random_double(), random_double());
 }

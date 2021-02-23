@@ -7,7 +7,6 @@
  */
 #include <iostream>
 
-#include "point.h"
 #include "ray.h"
 
 Point Ray::at(double t) const{
