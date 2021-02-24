@@ -39,4 +39,5 @@ build/*
 !build/.gitkeep
 *.json
 images/*
+!images/.gitkeep
 *.ppm
