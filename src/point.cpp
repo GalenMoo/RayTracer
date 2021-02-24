@@ -89,3 +89,9 @@ Point Point::random(){
 Point Point::random(double min, double max){
     return Point(random_double(), random_double(), random_double());
 }
+
+bool Point::near_zero() const{
+    // Return true if the vector is close to zero in all dimensions.
+    const auto s = 1e-8;
+    return (fabs(x_) < s) && (fabs(y_) < s) && (fabs(z_) < s);
+}

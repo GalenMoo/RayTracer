@@ -11,14 +11,12 @@
 #include "hittable.h"
 #include "hittable_list.h"
 
+#include "materials.h"
 
 void write_color(std::ostream &out, Color c);
 void write_color(std::ostream &out, Color pixel_color, int samples_per_pixel);
-Color ray_color(const Ray& r, Hittable& world, int depth);
+// Color ray_color(const Ray& r, Hittable& world, int depth);
 double hit_sphere(const Point& center, double radius, const Ray& r);
-
-Point random_in_unit_sphere();
-Point random_unit_vector();
 /*
 struct Color{
     double r{0};

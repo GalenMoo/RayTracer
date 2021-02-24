@@ -30,6 +30,8 @@ class Point
         
         static Point random();
         static Point random(double min, double max);
+
+        bool near_zero() const;
     private:
         double x_;
         double y_;
