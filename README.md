@@ -1,8 +1,15 @@
 # Ray Tracer
 Ray tracer program that uses a camera point and rays to different material spheres
 
+![cam](https://user-images.githubusercontent.com/25444917/108950916-eb5f0680-761b-11eb-9b2a-1a8b738a9db3.png) ![test_grey2](https://user-images.githubusercontent.com/25444917/108950867-d4201900-761b-11eb-952b-7e6b58317224.png)
+
+<img src="https://user-images.githubusercontent.com/25444917/108958498-ed2ec700-7627-11eb-8b42-ee9c2f4d614d.png" width="800">
+
+
+
+
 Due to the complex math of ray tracing, this project follows and uses the math of https://raytracing.github.io/.
-The main difference between this project and the link is that I migrated logic from the .h files to a new respected .cpp
+The main difference between this project and the link is that I migrated logic from the .h files to a new respected .cpp.
 CMake was also added.
 
 # Rubric
