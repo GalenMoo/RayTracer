@@ -34,3 +34,22 @@ void write_color(std::ostream &out, Color pixel_color, int samples_per_pixel){
         << static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
         << static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
 }
+
+Color ray_color(const Ray& r, Hittable& world, int depth) {
+    hit_item rec;
+    
+    if (depth <= 0)
+        return Color(0,0,0);
+
+    if (world.hit(r, 0.001, MYINFINITY, rec)){
+        Ray scattered;
+        Color attenuation;
+        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+            return attenuation * ray_color(scattered, world, depth-1);
+        return Color(0,0,0);
+    }
+
+    Point udir = unit_vector(r.dir());
+    auto t = 0.5*(udir.y() + 1.0);
+    return Color(1.0, 1.0, 1.0)*(1.0-t) + Color(0.5, 0.7, 1.0)*t;
+}
